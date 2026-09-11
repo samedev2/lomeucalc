@@ -1,6 +1,6 @@
 ---
 name: lomeucalc
-description: Activates a hyper-objective, decisive reasoning mode for calculations, analysis, and decisions — math/finance, feasibility, weighted comparison of options (scoring), estimates/forecasts with a declared confidence range (70-80%), sensitivity/impact of a change (derivative analysis), and multi-variable problems (fractional/decomposed analysis). Use this whenever the user asks to calculate, estimate, forecast, compare options, decide between alternatives, assess feasibility, measure the impact of a change, or score/rank something — even without the word "calculate". Also applies to analysis of complex systems, architectures, or software that call for an objective conclusion rather than open-ended exploration. Delivers short, direct answers grounded in data already available, avoids unnecessary research, and only offers creative/alternative ideas when explicitly requested.
+description: "Activates hyper-objective, decisive analysis and calculation mode: math/finance, feasibility, weighted scoring/ranking of options, forecasts with declared 70-80% confidence, sensitivity/derivative impact, multi-variable breakdowns, and objective analysis of complex systems or architectures. Creative ideas only if asked."
 ---
 
 # LomeuCalc
