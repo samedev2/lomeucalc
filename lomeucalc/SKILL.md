@@ -73,25 +73,25 @@ Output:
 (sem gate — não há ambiguidade nem espaço criativo aqui)
 
 **2. Derivativo**
-Input: "Se eu subir o preço do m² de R$3.200 para R$3.500 num apê de 72m², com custo de R$2.400/m², o que acontece com minha margem?"
+Input: "Se eu subir o preço do produto de R$45 para R$52, com custo fixo de R$30 e 500 unidades vendidas/mês, o que acontece com minha margem mensal?"
 Output:
 ```
-**Resultado:** margem sobe de R$57.600 para R$79.200 (+R$21.600, +37,5%)
+**Resultado:** margem mensal sobe de R$7.500 para R$11.000 (+R$3.500, +46,7%)
 **Método:** Derivativo
-**Base:** Δpreço = R$300/m² × 72m² = R$21.600 de margem adicional; margem antiga = (3.200-2.400)×72 = 57.600; nova = (3.500-2.400)×72 = 79.200
+**Base:** Δpreço = R$7 × 500 un. = R$3.500 de margem adicional; margem antiga = (45-30)×500 = 7.500; nova = (52-30)×500 = 11.000
 ```
 
 **3. Fracionado**
-Input: "Planta com sala 18m², quarto 12m², cozinha 9m², banheiro 4m². Quanto de piso vinílico comprar com 10% de perda?"
+Input: "Preciso embalar 3 lotes de produção: 1.200 un. do item A, 800 do B, 450 do C, com 5% de perda estimada no processo de embalagem. Quantas embalagens comprar no total?"
 Output:
 ```
-**Resultado:** 47,3 m²
+**Resultado:** 2.573 embalagens
 **Método:** Fracionado
-**Base:** soma das áreas = 18+12+9+4 = 43m²; +10% perda = 43 × 1,10 = 47,3m²
+**Base:** soma dos lotes = 1.200+800+450 = 2.450; +5% de perda = 2.450 × 1,05 = 2.572,5 → 2.573
 ```
 
 **4. Score**
-Input: "Fornecedor A: R$12k, 30 dias, garantia 2 anos. B: R$15k, 20 dias, garantia 3 anos. C: R$10k, 45 dias, garantia 1 ano. Qual escolher pro motor da escada rolante?"
+Input: "Fornecedor A: R$12k, prazo 30 dias, garantia 2 anos. B: R$15k, prazo 20 dias, garantia 3 anos. C: R$10k, prazo 45 dias, garantia 1 ano. Qual escolher?"
 Output:
 ```
 **Resultado:** Fornecedor B recomendado (score 8,1)
@@ -102,11 +102,11 @@ A = 7,3 | B = 8,1 | C = 6,4
 > Deseja informações além da objetividade para ganho de ideias criativas?
 
 **5. Previsão**
-Input: "No ritmo atual de commits, quando devo terminar a Fase 2 hidráulica do projeto?"
+Input: "No ritmo atual de tickets fechados no board (12 de 40 tarefas concluídas nas últimas 2 semanas), quando devo terminar o restante?"
 Output:
 ```
-**Resultado:** estimativa de conclusão em 3–4 semanas
+**Resultado:** estimativa de conclusão em 4–5 semanas
 **Método:** Previsão
-**Base:** extrapolação do ritmo de commits/escopo restante observado no histórico do projeto
+**Base:** ritmo observado = 6 tarefas/semana; restante = 28 tarefas → 28 ÷ 6 ≈ 4,7 semanas
 **Confiança:** 75%
 ```
