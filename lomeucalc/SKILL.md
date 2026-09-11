@@ -47,6 +47,24 @@ Antes de tirar qualquer conclusão em cima de um conjunto de dados, rode este ch
 
 Qualquer reprovação nesse checklist é sinal de Modo Bruto ou de declarar confiança insuficiente em vez de responder como se o dado fosse limpo.
 
+**Mandato de integridade (regra absoluta, sem exceção silenciosa):** o Sistema de Dados existe para que serviços, sistemas e indicadores comerciais avaliem dado consistente vs. inconsistente sem espaço para vagar ou alucinar. Isso significa, literalmente:
+
+- Nunca preencha uma lacuna, valor ausente ou dado incongruente com um número inventado — nem para "fechar a tabela" ou parecer completo. Um espaço em branco correto vale mais que um número errado.
+- Quando um dado está ausente, incongruente ou fora do escopo real da pergunta, diga isso explicitamente na resposta: **"Dado pendente: [o quê]"** ou **"Dado faltante: [o quê]"** — nunca disfarce a lacuna de fato.
+- Única exceção: dado mockado/fictício é permitido **somente** quando o usuário pede explicitamente para fins de teste ou demonstração visual (ex: "me dá um exemplo fictício pra eu ver o layout da tabela"). Nesse caso, todo valor gerado deve vir marcado em toda a saída como `[MOCK]` ou "dado fictício, não real" — sem exceção, para nunca ser confundido com dado real depois.
+- Isso vale com peso extra em uso comercial: número errado ou inventado numa decisão de negócio é dano real, não erro estético. Quando em dúvida entre inventar e admitir lacuna, admita a lacuna.
+
+**Checkpoints — como preservar o escopo em análises longas ou sequenciais:** quando uma análise tem mais de ~3 sub-partes, várias variáveis dependentes, ou se estende por mais de uma resposta/turno, declare um checkpoint compacto logo no início listando tudo que foi proposto para resolver. A cada etapa seguinte, referencie esse mesmo checkpoint — isso impede que o meio do caminho perca ou troque silenciosamente algo que fazia parte do pedido original.
+
+```
+**Checkpoint [n/N]:**
+- [x] item resolvido — resultado
+- [ ] item pendente — motivo
+- [!] item com dado incongruente — motivo
+```
+
+No fechamento de uma análise com checkpoint, sempre reconcilie contra a lista original: nada do que foi proposto no primeiro prompt pode sumir sem virar explicitamente um "pendente" ou "faltante". Para uma conta simples de uma linha, não force checkpoint — isso é estrutura para análise longa, não narrativa para análise curta.
+
 ### 3. Sistema de Telemetria — Localizar / Triangular / Variação rápida
 
 Esse sistema não lida com números soltos — lida com achar rápido o ponto certo de verdade dentro de um sistema complexo (código, infraestrutura, planilha, base de dados, logs, relatórios).
@@ -60,6 +78,8 @@ Esse sistema não lida com números soltos — lida com achar rápido o ponto ce
 Use apenas os dados que a pessoa forneceu ou que já estão disponíveis no contexto/projeto atual. Pesquisar na internet só é justificável quando o cálculo depende de um dado externo real que muda com o tempo e não foi dado (cotação atual, norma vigente, preço de mercado no momento) — e mesmo assim, busque o dado pontual, não "pesquise sobre o assunto".
 
 Se falta um dado essencial para fechar a conta, não presuma um valor plausível nem abra uma pesquisa ampla: faça uma pergunta direta e específica pedindo só aquele número, e pare aí — a menos que o Modo Bruto (abaixo) já tenha sido disparado.
+
+Isto vale para qualquer um dos três sistemas, não só o de Dados: nunca invente um valor para preencher uma lacuna. A única exceção é dado mockado pedido explicitamente pelo usuário para teste/demonstração, sempre marcado como `[MOCK]` — ver o mandato de integridade no Sistema de Dados acima, que é a versão completa desta regra.
 
 ## Modo Bruto: quando escalar para análise quantificada profunda
 
@@ -190,3 +210,17 @@ Output:
 **Base:** só há 2 fontes e elas discordam; a divergência é o próprio resultado. Próximo passo é localizar a fonte primária (conciliação bancária/livro-razão) para triangular antes de reportar um valor como fato
 **Confiança:** não aplicável — isto é um achado, não uma previsão
 ```
+
+**9. Sistema de Dados + Checkpoint (análise sequencial)**
+Input: "Preciso fechar o relatório trimestral: receita, custo e margem por mês (jan/fev/mar), e a projeção pro próximo trimestre. Jan: receita 45k, custo 30k. Fev: receita 48k, custo 31k. Março ainda não fechou."
+Output:
+```
+**Checkpoint [1/4]:**
+- [x] Margem Jan = (45.000−30.000)/45.000 = 33,3%
+- [x] Margem Fev = (48.000−31.000)/48.000 = 35,4%
+- [ ] Margem Mar — Dado pendente: receita e custo de março não foram informados
+- [ ] Projeção do próximo trimestre — depende do item anterior; bloqueada até Março fechar
+**Método:** Fracionado + Sistema de Dados (checkpoint)
+**Confiança:** não aplicável à projeção — dado pendente impede estimativa confiável
+```
+Nada do que foi pedido (as 4 linhas do relatório) foi descartado — o que falta está marcado como pendente, não preenchido com um número inventado. Se em vez disso o pedido fosse "me dá um exemplo fictício desse relatório pra eu testar o layout", todos os valores viriam marcados `[MOCK]`, nunca misturados aos dados reais de Jan/Fev acima.
