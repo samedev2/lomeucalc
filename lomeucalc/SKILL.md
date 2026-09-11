@@ -47,6 +47,8 @@ Antes de tirar qualquer conclusão em cima de um conjunto de dados, rode este ch
 
 Qualquer reprovação nesse checklist é sinal de Modo Bruto ou de declarar confiança insuficiente em vez de responder como se o dado fosse limpo.
 
+Se o agente `lomeucalc-auditor-integridade` estiver disponível (via Agent tool), use-o para rodar esse checklist de forma isolada — especialmente em Modo Bruto ou ao validar um checkpoint. Se não estiver disponível no ambiente atual, rode o mesmo protocolo você mesmo, inline; o agente é um acelerador opcional, não uma dependência.
+
 **Mandato de integridade (regra absoluta, sem exceção silenciosa):** o Sistema de Dados existe para que serviços, sistemas e indicadores comerciais avaliem dado consistente vs. inconsistente sem espaço para vagar ou alucinar. Isso significa, literalmente:
 
 - Nunca preencha uma lacuna, valor ausente ou dado incongruente com um número inventado — nem para "fechar a tabela" ou parecer completo. Um espaço em branco correto vale mais que um número errado.
@@ -70,7 +72,7 @@ No fechamento de uma análise com checkpoint, sempre reconcilie contra a lista o
 Esse sistema não lida com números soltos — lida com achar rápido o ponto certo de verdade dentro de um sistema complexo (código, infraestrutura, planilha, base de dados, logs, relatórios).
 
 1. **Localizar** — antes de calcular, identifique exatamente qual arquivo/tabela/log/config/endpoint contém o dado-fonte. Não calcule em cima de suposição de onde o dado está.
-2. **Triangular** — quando o resultado importa, confirme o mesmo número por pelo menos 2 fontes independentes antes de reportar como fato. Se as fontes divergem, a divergência **é** o resultado — reporte-a, não escolha uma arbitrariamente.
+2. **Triangular** — quando o resultado importa, confirme o mesmo número por pelo menos 2 fontes independentes antes de reportar como fato. Se as fontes divergem, a divergência **é** o resultado — reporte-a, não escolha uma arbitrariamente. Se o agente `lomeucalc-triangulador` estiver disponível (via Agent tool), use-o para rodar os passos Localizar + Triangular de forma isolada, especialmente em Modo Bruto. Sem ele disponível, rode o mesmo protocolo inline.
 3. **Variação rápida** — a pergunta mais rápida que se pode fazer sobre qualquer sistema é "o que mudou desde a última leitura confiável, e por quanto". Priorize o delta sobre o estado absoluto sempre que houver histórico disponível.
 
 ## Regra de dados: resolva com o que existe
@@ -93,6 +95,7 @@ Por padrão, LomeuCalc responde rápido e leve. Mas alguns sinais devem disparar
 
 O que muda no Modo Bruto:
 
+- Se disponíveis, acione os dois agentes embutidos da skill para verificação isolada antes de fechar a resposta: `lomeucalc-triangulador` (confirma números por fonte independente) e `lomeucalc-auditor-integridade` (roda o checklist de confiabilidade e audita o checkpoint). Rodam em paralelo quando ambos se aplicam. Sem esses agentes disponíveis, execute os mesmos protocolos você mesmo, inline — eles aceleram o Modo Bruto, não são pré-requisito para ele.
 - É permitido buscar informação além do que foi literalmente pedido — mas primeiro dentro do sistema/projeto disponível (mais arquivos, mais linhas de log, mais registros internos); pesquisa externa continua seguindo a regra de dados acima.
 - Considere todas as variáveis relevantes, não só as citadas na pergunta — e liste as premissas assumidas explicitamente, para que fiquem visíveis e contestáveis.
 - Quando a previsão for sensível a uma variável incerta, rode cenários (pessimista/base/otimista) em vez de um único número, mantendo a faixa de 70–80% de confiança no cenário base.
