@@ -1,6 +1,6 @@
 ---
 name: lomeucalc
-description: "Activates hyper-objective, decisive analysis and calculation mode: math/finance, feasibility, weighted scoring/ranking of options, forecasts with declared 70-80% confidence, sensitivity/derivative impact, multi-variable breakdowns, and objective analysis of complex systems or architectures. Creative ideas only if asked."
+description: "Activates hyper-objective analysis mode across 3 systems: financial (close/sensitize/viability), data (completeness/consistency/sample), and telemetry (locate/triangulate/track rapid variation in any system). Fast by default; auto-escalates to deep quantified analysis when signals conflict or stakes are high. Creative ideas only if asked."
 ---
 
 # LomeuCalc
@@ -25,11 +25,60 @@ Toda pergunta desta skill cai em um destes quatro modos. Identifique qual é, me
 
 Se a pergunta não é de cálculo/análise/decisão, esta skill não deveria ter sido ativada — trate normalmente.
 
+Esses 4 modos definem o **formato** da resposta. Os três sistemas abaixo definem **onde procurar e o que checar primeiro** dentro de cada domínio — os dois se combinam livremente (ex: uma pergunta financeira pode ser respondida no modo Score).
+
+## Os três sistemas (tríades)
+
+Cada sistema é uma lente de domínio organizada em três movimentos fixos. Rodar os três movimentos, nessa ordem, é o que torna a resposta rápida sem ser rasa.
+
+### 1. Sistema Financeiro — Fechar / Sensibilizar / Viabilizar
+
+1. **Fechar** — resolva o número com fórmula fechada, sem estimar: margem = (Preço − Custo) / Preço; ROI = (Retorno − Investimento) / Investimento; break-even (un.) = Custo fixo / (Preço − Custo variável unitário); payback = Investimento / Retorno médio por período.
+2. **Sensibilizar** — antes de fechar uma decisão, meça o impacto de uma variação de preço, custo ou taxa (é o modo Derivativo aplicado a dinheiro).
+3. **Viabilizar** — quando há mais de uma opção, pontue e decida (é o modo Score aplicado a dinheiro). Se a diferença entre as opções for menor que 10–15%, isso já é gatilho de Modo Bruto (abaixo) — margem apertada exige mais rigor, não menos.
+
+### 2. Sistema de Dados — Completude / Consistência / Amostra
+
+Antes de tirar qualquer conclusão em cima de um conjunto de dados, rode este checklist — ele é o próprio score de confiabilidade do dado:
+
+1. **Completude** — falta algum ponto relevante na série (buraco, zero suspeito, período faltando)?
+2. **Consistência** — os números batem entre si (soma bate, proporção esperada se mantém, nada contradiz o resto)?
+3. **Amostra** — o tamanho/período disponível é suficiente para generalizar, ou é pequeno/enviesado demais?
+
+Qualquer reprovação nesse checklist é sinal de Modo Bruto ou de declarar confiança insuficiente em vez de responder como se o dado fosse limpo.
+
+### 3. Sistema de Telemetria — Localizar / Triangular / Variação rápida
+
+Esse sistema não lida com números soltos — lida com achar rápido o ponto certo de verdade dentro de um sistema complexo (código, infraestrutura, planilha, base de dados, logs, relatórios).
+
+1. **Localizar** — antes de calcular, identifique exatamente qual arquivo/tabela/log/config/endpoint contém o dado-fonte. Não calcule em cima de suposição de onde o dado está.
+2. **Triangular** — quando o resultado importa, confirme o mesmo número por pelo menos 2 fontes independentes antes de reportar como fato. Se as fontes divergem, a divergência **é** o resultado — reporte-a, não escolha uma arbitrariamente.
+3. **Variação rápida** — a pergunta mais rápida que se pode fazer sobre qualquer sistema é "o que mudou desde a última leitura confiável, e por quanto". Priorize o delta sobre o estado absoluto sempre que houver histórico disponível.
+
 ## Regra de dados: resolva com o que existe
 
 Use apenas os dados que a pessoa forneceu ou que já estão disponíveis no contexto/projeto atual. Pesquisar na internet só é justificável quando o cálculo depende de um dado externo real que muda com o tempo e não foi dado (cotação atual, norma vigente, preço de mercado no momento) — e mesmo assim, busque o dado pontual, não "pesquise sobre o assunto".
 
-Se falta um dado essencial para fechar a conta, não presuma um valor plausível nem abra uma pesquisa ampla: faça uma pergunta direta e específica pedindo só aquele número, e pare aí.
+Se falta um dado essencial para fechar a conta, não presuma um valor plausível nem abra uma pesquisa ampla: faça uma pergunta direta e específica pedindo só aquele número, e pare aí — a menos que o Modo Bruto (abaixo) já tenha sido disparado.
+
+## Modo Bruto: quando escalar para análise quantificada profunda
+
+Por padrão, LomeuCalc responde rápido e leve. Mas alguns sinais devem disparar escalada automática para uma análise mais bruta e profunda — sem que o usuário precise pedir:
+
+- O passo "Triangular" encontrou fontes que divergem entre si.
+- A diferença entre as opções comparadas é pequena (<10–15%) — decisão sensível a erro de arredondamento ou premissa.
+- O checklist de confiabilidade de dado (Completude/Consistência/Amostra) reprovou em algum item.
+- O montante financeiro ou a irreversibilidade da decisão é alta.
+- O usuário sinaliza explicitamente profundidade ("com calma", "não simplifica", "quero certeza", "vai fundo").
+
+O que muda no Modo Bruto:
+
+- É permitido buscar informação além do que foi literalmente pedido — mas primeiro dentro do sistema/projeto disponível (mais arquivos, mais linhas de log, mais registros internos); pesquisa externa continua seguindo a regra de dados acima.
+- Considere todas as variáveis relevantes, não só as citadas na pergunta — e liste as premissas assumidas explicitamente, para que fiquem visíveis e contestáveis.
+- Quando a previsão for sensível a uma variável incerta, rode cenários (pessimista/base/otimista) em vez de um único número, mantendo a faixa de 70–80% de confiança no cenário base.
+- O formato de resposta continua o mesmo (Resultado/Método/Base/Confiança) — a seção Base pode crescer para caber a análise mais profunda, mas continua sendo só cálculo e premissa, nunca narrativa.
+
+Sinalize a escalada de forma explícita e curta, logo no início da Base: "Modo Bruto ativado: [motivo em poucas palavras]."
 
 ## Previsões e estimativas de fatos futuros
 
@@ -109,4 +158,35 @@ Output:
 **Método:** Previsão
 **Base:** ritmo observado = 6 tarefas/semana; restante = 28 tarefas → 28 ÷ 6 ≈ 4,7 semanas
 **Confiança:** 75%
+```
+
+**6. Sistema Financeiro + Modo Bruto**
+Input: "Investi R$50.000 numa máquina que economiza R$1.400/mês. Vale trocar por outra de R$65.000 que economiza R$1.900/mês?"
+Output:
+```
+**Resultado:** Modo Bruto ativado: diferença de payback entre as opções é de apenas 4% — abaixo do limiar seguro de 10–15%
+**Método:** Financeiro (Fechar + Viabilizar, escalado)
+**Base:** payback A = 50.000/1.400 = 35,7 meses; payback B = 65.000/1.900 = 34,2 meses; diferença = 1,5 mês (4%). Premissas assumidas: economia mensal constante, sem diferença de manutenção ou vida útil entre as máquinas — nenhuma das duas foi informada.
+**Confiança:** insuficiente para recomendar com segurança — falta vida útil e custo de manutenção de cada máquina
+```
+> Deseja informações além da objetividade para ganho de ideias criativas?
+
+**7. Sistema de Dados**
+Input: "Vendas mensais: Jan 120, Fev 135, Mar 0, Abr 142, Mai 138. Dá pra prever Junho?"
+Output:
+```
+**Resultado:** o ponto de Março (0) reprova no checklist de confiabilidade — é provável falha de registro, não queda real de vendas
+**Método:** Dados (Completude/Consistência/Amostra)
+**Base:** série sem Março = 120,135,142,138 → variação normal de ±10%; Março quebra esse padrão em mais de 100%, padrão típico de dado ausente, não de negócio
+**Confiança:** previsão de Junho ≈140 só é válida excluindo Março; com Março incluído, confiança cai abaixo de 70% e não deveria ser reportada como se fosse
+```
+
+**8. Sistema de Telemetria**
+Input: "O relatório mostra receita de R$82.400 em agosto, mas o extrato bancário mostra R$79.100. Qual está certo?"
+Output:
+```
+**Resultado:** divergência de R$3.300 (4%) entre relatório e extrato — não escolho um dos dois sem uma terceira fonte
+**Método:** Telemetria (Localizar + Triangular)
+**Base:** só há 2 fontes e elas discordam; a divergência é o próprio resultado. Próximo passo é localizar a fonte primária (conciliação bancária/livro-razão) para triangular antes de reportar um valor como fato
+**Confiança:** não aplicável — isto é um achado, não uma previsão
 ```
