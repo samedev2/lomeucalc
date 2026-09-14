@@ -1,5 +1,7 @@
 # lomeucalc
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Skill para [Claude Code](https://claude.com/claude-code) feita para **indicadores, dashboards e sistemas de telemetria de dados** — ativa um modo de análise hiper objetivo e decisivo, token-econômico, sem rodeio, sem pesquisa desnecessária, sem inventar número para preencher lacuna.
 
 Aplicação primária: leitura de KPI/dashboard com definição travada de numerador/denominador/período, frescor do dado (staleness), classificação contra limiar (dentro do range / atenção / crítico) e detecção rápida de anomalia — tudo isso apoiado em 3 sistemas de domínio (Financeiro, Dados, Telemetria), um protocolo de escalação para análise profunda quando os sinais exigem ("Modo Bruto"), um mandato de integridade que proíbe alucinar dado ausente, e um protocolo de checkpoint para análises longas não perderem o escopo original pelo caminho. Detalhes completos em [lomeucalc/SKILL.md](lomeucalc/SKILL.md).
@@ -38,4 +40,9 @@ lomeucalc/
     └── lomeucalc-auditor-integridade.md
 install.sh                 # instalador para macOS/Linux/Git Bash
 install.ps1                # instalador para PowerShell (Windows nativo)
+LICENSE                     # MIT
 ```
+
+## Licença
+
+MIT — veja [LICENSE](LICENSE). Use, modifique e redistribua livremente, mantendo o aviso de copyright.
