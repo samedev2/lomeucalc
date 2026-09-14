@@ -1,6 +1,6 @@
 ---
 name: lomeucalc
-description: "Activates hyper-objective analysis mode across 3 systems: financial (close/sensitize/viability), data (completeness/consistency/sample), and telemetry (locate/triangulate/track rapid variation in any system). Fast by default; auto-escalates to deep quantified analysis when signals conflict or stakes are high. Creative ideas only if asked."
+description: "Activates hyper-objective analysis for indicators, dashboards, and data/telemetry systems: KPI definition, freshness, thresholds, anomaly detection, plus financial, data-reliability, and source-triangulation triads. Fast and token-light by default; escalates to deep analysis when signals conflict or stakes are high. Creative ideas only if asked."
 ---
 
 # LomeuCalc
@@ -75,6 +75,17 @@ Esse sistema não lida com números soltos — lida com achar rápido o ponto ce
 2. **Triangular** — quando o resultado importa, confirme o mesmo número por pelo menos 2 fontes independentes antes de reportar como fato. Se as fontes divergem, a divergência **é** o resultado — reporte-a, não escolha uma arbitrariamente. Se o agente `lomeucalc-triangulador` estiver disponível (via Agent tool), use-o para rodar os passos Localizar + Triangular de forma isolada, especialmente em Modo Bruto. Sem ele disponível, rode o mesmo protocolo inline.
 3. **Variação rápida** — a pergunta mais rápida que se pode fazer sobre qualquer sistema é "o que mudou desde a última leitura confiável, e por quanto". Priorize o delta sobre o estado absoluto sempre que houver histórico disponível.
 
+## Indicadores, dashboards e telemetria de dados (aplicação primária)
+
+Esta é a especialização mais usada da skill. Quando a pergunta é sobre um indicador, KPI, métrica de dashboard ou leitura de telemetria, combine o Sistema de Dados com o Sistema de Telemetria através destes 4 travamentos, nessa ordem:
+
+1. **Definir o indicador** — trave numerador, denominador e período/corte antes de calcular qualquer coisa. Um KPI sem essas 3 definições explícitas não é um número, é opinião. Se a pergunta não deixar isso claro, faça uma pergunta direta pedindo só o que falta — não assuma a definição "mais comum" de mercado.
+2. **Frescor (staleness)** — dashboard e telemetria têm uma falha que dado estático não tem: o número pode estar certo e ainda assim velho. Sempre que houver timestamp disponível, declare a idade do dado. Indicador correto porém desatualizado deve ser marcado como tal, nunca apresentado como tempo real.
+3. **Limiar (threshold)** — todo indicador de dashboard tem uma faixa aceitável, explícita ou implícita. Classifique o valor contra ela objetivamente: dentro do range / atenção / crítico, citando o número que define cada corte. Sem limiar informado, pergunte ou declare a ausência dele — nunca invente um "normal".
+4. **Anomalia rápida** — heurística leve, sem modelo estatístico pesado: compare o ponto atual contra a média das últimas N leituras. Um desvio de várias vezes o desvio-padrão histórico (ou, na ausência de desvio-padrão, um salto que quebra o padrão visível da série) é candidato a anomalia real, não ruído — e dispara Modo Bruto ou o agente `lomeucalc-auditor-integridade`.
+
+Para este tipo de pergunta, use o **formato de Indicador** (seção Formato de resposta, abaixo) em vez do formato genérico — ele lê como card de dashboard, não como laudo.
+
 ## Regra de dados: resolva com o que existe
 
 Use apenas os dados que a pessoa forneceu ou que já estão disponíveis no contexto/projeto atual. Pesquisar na internet só é justificável quando o cálculo depende de um dado externo real que muda com o tempo e não foi dado (cotação atual, norma vigente, preço de mercado no momento) — e mesmo assim, busque o dado pontual, não "pesquise sobre o assunto".
@@ -111,6 +122,7 @@ Se os dados disponíveis não sustentam nem 70% de confiança, isso também é u
 
 ## Formato de resposta
 
+**Genérico** — para Direto/Derivativo/Fracionado/Score/Previsão:
 ```
 **Resultado:** [valor, decisão ou fato]
 **Método:** [Direto / Derivativo / Fracionado / Score / Previsão]
@@ -118,7 +130,16 @@ Se os dados disponíveis não sustentam nem 70% de confiança, isso também é u
 **Confiança:** [somente em previsões — XX%, sempre entre 70–80]
 ```
 
-O tamanho da resposta é proporcional à complexidade real do problema — uma conta simples cabe em 2–3 linhas; uma análise fracionada com 5 variáveis pode ocupar mais espaço, mas cada linha continua sendo cálculo ou critério, nunca enchimento.
+**Indicador** — para KPI/dashboard/telemetria (ver seção acima):
+```
+**Indicador:** [nome do KPI]
+**Valor:** [número] ([tendência ↑ / ↓ / → vs. período anterior, se disponível])
+**Status:** [dentro do range / atenção / crítico]
+**Frescor:** [idade do dado, ou "não informado"]
+**Base:** [numerador / denominador / período / limiar usado]
+```
+
+Use o formato que casa com o tipo de pergunta — nunca os dois ao mesmo tempo. O tamanho da resposta é proporcional à complexidade real do problema — uma conta simples cabe em 2–3 linhas; uma análise fracionada com 5 variáveis pode ocupar mais espaço, mas cada linha continua sendo cálculo ou critério, nunca enchimento.
 
 ## O que cortar sempre
 
@@ -227,3 +248,15 @@ Output:
 **Confiança:** não aplicável à projeção — dado pendente impede estimativa confiável
 ```
 Nada do que foi pedido (as 4 linhas do relatório) foi descartado — o que falta está marcado como pendente, não preenchido com um número inventado. Se em vez disso o pedido fosse "me dá um exemplo fictício desse relatório pra eu testar o layout", todos os valores viriam marcados `[MOCK]`, nunca misturados aos dados reais de Jan/Fev acima.
+
+**10. Indicador / Dashboard (anomalia)**
+Input: "Dashboard mostra 342 pedidos hoje até 14h, atualizado há 10 min. Média das últimas 4 semanas no mesmo horário é 410, desvio padrão ~25. Isso é normal?"
+Output:
+```
+**Indicador:** Pedidos até 14h
+**Valor:** 342 (↓ vs. média histórica de 410)
+**Status:** atenção — abaixo da faixa normal
+**Frescor:** atualizado há 10 min
+**Base:** desvio = (342−410)/410 = −16,6%; ≈2,7 desvios-padrão abaixo da média (410±25) → foge do padrão normal, candidato a anomalia real, não ruído de amostragem
+```
+> Deseja informações além da objetividade para ganho de ideias criativas?
